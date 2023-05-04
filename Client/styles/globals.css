@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: #7dd3fc;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+body {
+  color: #e7e8e8;
+  background: #0f1318;
+}
+
+.center {
+  /* background-color: rgb(44, 44, 44); */
+  text-align: center;
+}
+.code {
+  border-radius: 5px;
+  padding-left: 10px;
+  background-color: rgb(44, 44, 44);
+  overflow-y: auto;
+  height: 30vh;
+  color: white;
+  font-family: monospace;
+}
+
+#settings {
+  /* background-color: rgb(175, 179, 174); */
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.btn {
+  background-color: rgb(44, 44, 44);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+#btn {
+  background-color: rgb(44, 44, 44);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+#content {
+  width: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+#sidebar {
+  min-width: 400px;
+  max-width: 400px;
+  transition: all 0.3s;
+}
