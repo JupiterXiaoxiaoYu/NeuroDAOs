@@ -1,242 +1,215 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import JSide from "./JSide.js";
 import { network, layer } from "../panels/kerasCode.js";
-import { ModelPanel } from "./DAOPanel.js"
+import ModelPanel from "./ModelPanel.js"
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 //import {NetworkGraph} from "./ModelPanel.js"
-import { Box, Divider, Flex, Heading, SimpleGrid, VStack, HStack, Button } from "@chakra-ui/react";
+import { Box, Divider, Flex, Alert, AlertIcon, AlertDescription, CloseButton, AlertTitle, useDisclosure } from "@chakra-ui/react";
 
-class createDAO extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hiddenModelPanel: false,
-            hideModelPanel: () => this.hideModelPanel(),
-            unhideModelPanel: () => this.unhideModelPanel(),
-            network: new network(),
-            selectedLayer: 0,
-            selelectedNode: 0,
-            responsibilityOverlap: false,
-            DAOName: '',
-            TokenName: '',
-            TokenSymbol: '',
-            DAODescription: '',
-            doSetDAOName: new_name => this.doSetDAOName(new_name),
-            doSetTokenName: new_name => this.doSetTokenName(new_name),
-            doSetTokenSymbol: new_symbol => this.doSetTokenSymbol(new_symbol),
-            doSetDAODescription: new_description => this.doSetDAODescription(new_description),
-            doSetResponsibilityOverlap: () => this.doSetResponsibilityOverlap(), // pass to modelPanel
-            doSelectLayer: selected_layer => this.doSelectLayer(selected_layer), // pass to modelPanel
-            doSelectNode: selected_node => this.doSelectNode(selected_node), // pass to modelPanel
-            doColorNode: hoverednode => this.doColorNode(hoverednode), // pass to modelPanel
-            doColorLayer: hoveredlayer => this.doColorLayer(hoveredlayer), // pass to modelPanel
-            doAddLayer: () => this.doAddLayer(), // pass to buildPanel, to call as needed
-            doRemoveLayer: () => this.doRemoveLayer(),
-            doSetOptimizer: new_opt => this.doSetOptimizer(new_opt),
-            doSetActivation: (layer, new_act) => this.doSetActivation(layer, new_act),
-            doSetWeightInit: (layer, new_weight) => this.doSetWeightInit(layer, new_weight),
-            doSetNumNodes: (layer, new_nodes) => this.doSetNumNodes(layer, new_nodes),
-            doSetLearnRate: (new_learn) => this.doSetLearnRate(new_learn),
-            // doSetEpochs: (new_epochs) => this.doSetEpochs(new_epochs),
-            // doSetBatchSize: (new_batch) => this.doSetBatchSize(new_batch),
-            doSetLoss: (new_loss) => this.doSetLoss(new_loss),
-            // doSetLearningDecay: (new_decay) => this.doSetLearningDecay(new_decay),
-        }
-    }
-    doSetLearningDecay = new_decay => {
+const CreateDAO = ({ appState }) => {
+    const [state, setState] = useState({
+        ...appState,
+        hiddenModelPanel: false,
+        hideModelPanel: () => setState(prevState => ({ ...prevState, hiddenModelPanel: true })),
+        unhideModelPanel: () => setState(prevState => ({ ...prevState, hiddenModelPanel: false })),
+        network: new network(),
+        selectedLayer: 0,
+        selectedNode: 0,
+        responsibilityOverlap: false,
+        DAOName: '',
+        TokenName: '',
+        TokenSymbol: '',
+        DAODescription: '',
+        coloredLayer: undefined,
+        coloredNode: undefined,
+        promptStatus: 'success',
+        propmtDescription: 'Your DAO has been created!',
+        doSetDAOName: new_name => setState(prevState => ({ ...prevState, DAOName: new_name })),
+        doSetTokenName: new_name => setState(prevState => ({ ...prevState, TokenName: new_name })),
+        doSetTokenSymbol: new_symbol => setState(prevState => ({ ...prevState, TokenSymbol: new_symbol })),
+        doSetDAODescription: new_description => setState(prevState => ({ ...prevState, DAODescription: new_description })),
+        doSetResponsibilityOverlap: () => setState(prevState => ({ ...prevState, responsibilityOverlap: !prevState.responsibilityOverlap })),
+        doSelectLayer: selected_layer => doSelectLayer(selected_layer),
+        doSelectNode: selected_node => doSelectNode(selected_node),
+        doColorNode: hoverednode => doColorNode(hoverednode),
+        doColorLayer: hoveredlayer => doColorLayer(hoveredlayer),
+        doAddLayer: () => doAddLayer(),
+        doRemoveLayer: removeLayer => doRemoveLayer(removeLayer),
+        doSetOptimizer: new_opt => doSetOptimizer(new_opt),
+        doSetActivation: (layer, new_act) => doSetActivation(layer, new_act),
+        doSetWeightInit: (layer, new_weight) => doSetWeightInit(layer, new_weight),
+        doSetNumNodes: (layer, new_nodes) => doSetNumNodes(layer, new_nodes),
+        doSetLearnRate: (new_learn) => doSetLearnRate(new_learn),
+        // doSetEpochs: (new_epochs) => doSetEpochs(new_epochs),
+        // doSetBatchSize: (new_batch) => doSetBatchSize(new_batch),
+        doSetLoss: (new_loss) => doSetLoss(new_loss),
+        // doSetLearningDecay: (new_decay) => doSetLearningDecay(new_decay),
+        doPrompt: (state) => {setState(prevState => ({ ...prevState, promptStatus: state.status, propmtDescription:state.description })); onOpen()},
+    });
+
+
+    const {
+        isOpen: isVisible,
+        onClose,
+        onOpen,
+    } = useDisclosure({ defaultIsOpen: false })
+
+    const doSetLearningDecay = new_decay => {
         let new_network = new network();
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
         new_network.setlearningRateDecay(new_decay);
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
     }
-    doSetLoss = new_loss => {
+    const doSetLoss = new_loss => {
         let new_network = new network();
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
         new_network.setLoss(new_loss);
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
     }
 
-    doSetDAOName = new_name => {
-        this.setState(prevState => {
+    const doSelectLayer = selected_layer => {
+        // console.log('seletcing');
+        doColorLayer(selected_layer);
+
+        setState(prevState => {
+            // console.log(prevState.selectedLayer)
             return {
-                DAOName: new_name
-            }
-        })
-    }
-
-    doSetTokenName = new_name => {
-        this.setState(prevState => {
-            return {
-                TokenName: new_name
-            }
-        })
-    }
-
-    doSetTokenSymbol = new_symbol => {
-        this.setState(prevState => {
-            return {
-                TokenSymbol: new_symbol
-            }
-        })
-    }
-
-    doSetDAODescription = new_description => {
-        this.setState(prevState => {
-            return {
-                DAODescription: new_description
-            }
-        })
-    }
-
-    // doSetEpochs = new_epochs => {
-    //     let new_network = new network();
-    //     new_network.copy(this.state.network);
-    //     new_network.setEpochs(new_epochs);
-    //     this.setState(prevState => {
-    //         return {
-    //             network: new_network
-    //         }
-    //     })
-    // }
-
-    // doSetBatchSize = new_batch => {
-    //     let new_network = new network();
-    //     new_network.copy(this.state.network);
-    //     new_network.setBatchSize(new_batch);
-    //     this.setState(prevState => {
-    //         return {
-    //             network: new_network
-    //         }
-    //     })
-    // }
-    doSelectLayer = selected_layer => {
-
-        this.doColorLayer(selected_layer);
-
-        this.setState(prevState => {
-            return {
+                ...prevState,
                 selectedLayer: selected_layer
             }
         })
     }
 
-    doSelectNode = selected_node => {
+    const doSelectNode = selected_node => {
 
-        this.doColorNode(selected_node);
+        doColorNode(selected_node);
 
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 selectedNode: selected_node
             }
         })
     }
 
-    doColorNode = colored_node => {
-        this.setState(prevState => {
+    const doColorNode = colored_node => {
+        setState(prevState => {
             return {
+                ...prevState,
                 coloredNode: colored_node
             }
         })
-        this.hideModelPanel();
+        hideModelPanel();
     }
 
-    doColorLayer = colored_layer => {
-        this.setState(prevState => {
+    const doColorLayer = colored_layer => {
+        setState(prevState => {
             return {
+                ...prevState,
                 coloredLayer: colored_layer
             }
         })
-        this.hideModelPanel();
+        hideModelPanel();
     }
 
 
-    doSetLearnRate = new_learn => {
+    const doSetLearnRate = new_learn => {
         let new_network = new network();
 
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
         new_network.setLearnRate(new_learn);
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
 
     }
 
-    hideModelPanel = () => {
-        this.setState(prevState => {
+    const hideModelPanel = () => {
+        setState(prevState => {
             return {
+                ...prevState,
                 hiddenModelPanel: true,
             }
         })
     }
 
-    doSetResponsibilityOverlap = () => {
-        this.setState(prevState => {
+    const doSetResponsibilityOverlap = () => {
+        setState(prevState => {
             return {
+                ...prevState,
                 responsibilityOverlap: !prevState.responsibilityOverlap
             }
         })
     }
 
-    unhideModelPanel = () => {
-        this.setState(prevState => {
+    const unhideModelPanel = () => {
+        setState(prevState => {
             return {
+                ...prevState,
                 hiddenModelPanel: false,
             }
         })
     }
 
-    doSetOptimizer = new_opt => {
+    const doSetOptimizer = new_opt => {
         console.log("starting");
-        // const network = this.state.network;
+        // const network = state.network;
         // network.theoptimizer = "test";
-        // this.state.network.reportContent();
+        // state.network.reportContent();
         let new_network = new network();
 
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
         new_network.setOptimizer(new_opt);
         // new_network.reportContent();
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
         // console.log("after setting state");
-        // this.state.network.reportContent();
+        // state.network.reportContent();
         // console.log("finished");
     }
 
-    doRemoveLayer = () => {
-        const selectedLayer = this.state.selectedLayer;
+    const doRemoveLayer = (removeLayer) => {
         const newNetwork = new network();
-        newNetwork.copy(this.state.network);
+        newNetwork.copy(state.network);
         if (newNetwork.arrLayers.length === 3) {
             return
         }
-        newNetwork.removeLayer(selectedLayer);
-        this.setState(prevState => {
+        console.log('before move', removeLayer)
+        newNetwork.removeLayer(removeLayer);
+        
+        setState(prevState => {
+            console.log("removing layer",prevState.selectedLayer);
             return {
+                ...prevState,
                 network: newNetwork,
-                selectedLayer: selectedLayer - 1,
+                selectedLayer: removeLayer-1,
             }
         })
-        this.hideModelPanel();
+        hideModelPanel();
     }
 
-    doAddLayer = () => {
+    const doAddLayer = () => {
         let new_layer = new layer(5, 'relu', false, false, "glorot uniform");
         const newNetwork = new network();
-        newNetwork.copy(this.state.network);
+        newNetwork.copy(state.network);
 
         if (newNetwork.arrLayers.length === 0) {
             new_layer.isFirstLayer = true;
@@ -246,15 +219,16 @@ class createDAO extends Component {
         }
         newNetwork.addLayer(new_layer);
 
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: newNetwork,
-                selectedLayer: this.state.network.arrLayers.length - 1,
+                selectedLayer: state.network.arrLayers.length - 1,
                 selectedNode: 0
             }
         })
 
-        this.hideModelPanel();
+        hideModelPanel();
     }
 
     /**
@@ -262,63 +236,77 @@ class createDAO extends Component {
      * @param {*} layer numeric id of the layer
      * @param {*} new_act new activation function to be set
      */
-    doSetActivation(layer, new_act) {
+    const doSetActivation = (layer, new_act) => {
         let new_network = new network();
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
 
         new_network.arrLayers[layer].setActivation(new_act);
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
     }
 
-    doSetWeightInit(layer, new_weight) {
+    const doSetWeightInit = (layer, new_weight) => {
         let new_network = new network();
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
 
         new_network.arrLayers[layer].setWeightInit(new_weight);
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
     }
 
-    doSetNumNodes = (layer, new_num) => {
+    const doSetNumNodes = (layer, new_num) => {
         let new_network = new network();
-        new_network.copy(this.state.network);
+        new_network.copy(state.network);
 
         new_network.arrLayers[layer].setNumNodes(new_num);
-        this.setState(prevState => {
+        setState(prevState => {
             return {
+                ...prevState,
                 network: new_network
             }
         })
     }
 
-    
-    render() {
-        console.log(this.state)
-        return (
-            <Flex direction="column" h="100vh">
-                <Header />
-                <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
-                    <Sidebar />
-                    <Flex class="wrapper" flex={1} h={'100%'}>
-                        <ModelPanel appState={this.state} />
-                        <JSide appState={this.state}></JSide>
-                    </Flex>
+
+
+
+    return (
+        <Flex direction="column" h="100vh">
+            <Header />
+            {isVisible && (
+            <Alert status={state.promptStatus}>
+                <AlertIcon />
+                <Flex flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                    <AlertDescription color={'black'}>
+                        {state.propmtDescription}
+                    </AlertDescription>
+                    <CloseButton
+                    color={'black'}
+                    onClick={onClose}
+                />
                 </Flex>
-
+            </Alert>
+            )}
+            <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
+                <Sidebar />
+                <Flex class="wrapper" flex={1} h={'100%'}>
+                    <ModelPanel appState={state} />
+                    <JSide appState={state}></JSide>
+                </Flex>
             </Flex>
-        );
-    }
-
+        </Flex>
+    );
 }
 
 
-export default createDAO;
+export default CreateDAO;
 
 

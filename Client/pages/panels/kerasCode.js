@@ -67,6 +67,7 @@ export class network {
     }
 
     removeLayer(index) {
+        console.log('move index here',index)
         this.arrLayers.splice(index, 1);
     }
 

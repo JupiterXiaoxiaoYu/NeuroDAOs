@@ -14,7 +14,7 @@ export function SidebarNav() {
     <Stack spacing="12" align="flex-start">
       <NavSection title="DAO">
         <NavLink icon={BiNetworkChart} href="/dashboard">My DAOs</NavLink>
-        <NavLink icon={GiMicroscope} href="/users">Explore DAO</NavLink>
+        <NavLink icon={GiMicroscope} href="/exploreDAO">Explore DAO</NavLink>
         <NavLink icon={VscGitPullRequestCreate} href="/createDAO">Create DAO</NavLink>
         <NavLink icon={FaTasks} href="/tasks">Notifications</NavLink>
       </NavSection>

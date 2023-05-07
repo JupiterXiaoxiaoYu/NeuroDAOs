@@ -91,6 +91,7 @@ class BuildPanel extends Component {
 
     render() {
         const selectedLayer = this.props.appState.network.arrLayers[this.props.appState.selectedLayer];
+        console.log('?????',this.props)
         return (
             <Box>
                 <Box mb="1rem" />
@@ -138,20 +139,20 @@ class BuildPanel extends Component {
                 }}>{this.props.appState.network.arrLayers.length === 5 ? `Cannot Add More` : `Add Layer ${this.props.appState.network.arrLayers.length + 1}`}</Button>{' '}
 
                 <Button style={{ marginLeft: '20px' }} variant="danger" onClick={() => {
-                    console.log("removing layer");
-                    this.props.appState.doRemoveLayer();
+                    console.log("removing layer", this.props.appState.selectedLayer);
+                    this.props.appState.doRemoveLayer(this.props.appState.selectedLayer);
                 }}>{this.props.appState.network.arrLayers.length === 3 ? `At least 3 layers` : `Remove Layer ${this.props.appState.selectedLayer + 1}`}</Button>{' '}
                 <Box mb="1rem" />
                 {/* {alert("selected layer is " + this.props.appState.selectedLayer)} */}
                 <Box mb="1rem" />
                 <Form>
                     <Form.Group controlId="formBasicRange">
-                        <Form.Label>Node Count: {this.props.appState.network.arrLayers[this.props.appState.selectedLayer].numNodes}</Form.Label>
+                        <Form.Label>Node Count: {selectedLayer.numNodes}</Form.Label>
                         <Form.Control type="range"
                             onChange={this.handleChange}
                             min="1"
                             max="10"
-                            value={this.props.appState.network.arrLayers[this.props.appState.selectedLayer].numNodes} />
+                            value={selectedLayer.numNodes} />
                     </Form.Group>
                 </Form>
 
