@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.12;
 
-import "https://github.com/Uniswap/uniswap-v2-periphery/blob/master/contracts/interfaces/IUniswapV2Router02.sol";
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 import "@thirdweb-dev/contracts/openzeppelin-presets/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
@@ -14,9 +14,9 @@ interface IUniswapV2Factory {
 
 contract Swap {
     address internal constant UNISWAP_ROUTER_ADDRESS =
-        0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
+        0xF2b82d7169298CBcA8145b2E20Dbdb50eD23F9Af; // 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
     address internal constant UNISWAP_FACTORY_ADDRESS =
-        0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
+        0xd1530CF6c29993f08fF40F6Fd7AE4b2AD7571E89; //0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
     IUniswapV2Router02 public uniswapRouter;
     IUniswapV2Factory public uniFactory;
 

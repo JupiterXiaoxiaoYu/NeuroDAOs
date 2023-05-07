@@ -11,13 +11,23 @@ const ConfirmPanel = (props) => {
     //     props.appState.doSetBatchSize(event.target.value)
     // }
     // console.log('=====', props.appState)
-    const { contract } = useContract("0x201e479D966a08f2B0E9c886c9cb9E3e5c1d0A65");
-    const { mutateAsync: createFansDAOContract, isLoading } = useContractWrite(contract, "createFansDAOContract")
+    const { contract } = useContract("0x01b64C824C34Acb75d62CAceeb186220685c2e24");
+    const { mutateAsync: createNeuroDAOContract, isLoading } = useContractWrite(contract, "createNeuroDAOContract")
     // const [alertState, setAlertState] = useState('success');
 
     const callCreateDAO = async () => {
         try {
-            const data = await createFansDAOContract({ args: [props.appState.DAOName, props.appState.DAODescription, props.appState.TokenName, props.appState.TokenSymbol] });
+
+            const hiddenNodesNum = props.appState.network.arrLayers.slice(1, -1).reduce((acc, layer) => {
+                return parseInt(parseInt(acc) + parseInt(layer.numNodes))
+            }, 0);
+            // console.log({
+            //     args: [props.appState.DAOName, props.appState.DAODescription, props.appState.TokenName, props.appState.TokenSymbol, props.appState.network.arrLayers.length, props.appState.network.arrLayers[0].numNodes, hiddenNodesNum, props.appState.network.arrLayers[props.appState.network.arrLayers.length - 1].numNodes, props.appState.responsibilityOverlap]
+            // })
+            console.log(hiddenNodesNum);
+            const data = await createNeuroDAOContract({
+                args: [props.appState.DAOName, props.appState.DAODescription, props.appState.TokenName, props.appState.TokenSymbol, props.appState.network.arrLayers.length, props.appState.network.arrLayers[0].numNodes, hiddenNodesNum, props.appState.network.arrLayers[props.appState.network.arrLayers.length - 1].numNodes, props.appState.responsibilityOverlap]
+            });
             console.info("contract call successs", data);
             props.appState.doPrompt({ description: 'Your DAO has been created!', status: 'success' });
         } catch (err) {
@@ -31,14 +41,18 @@ const ConfirmPanel = (props) => {
     return (
         <Box>
             <Box mb="1rem" />
-            <Text>{`Nodes of Input Layer: ${props.appState.network.arrLayers[0].numNodes} (Who responsible for Information Collection and Verification)`}</Text>
-            <Text>{`Nodes of Hidden Layer: ${props.appState.network.arrLayers.slice(1, -1).reduce((acc, layer) => {
+            <Text fontWeight={'semibold'}>{`Nodes of Input Layer: ${props.appState.network.arrLayers[0].numNodes} (Who responsible for Information Collection and Verification)`}</Text>
+            <Box mb="1rem" />
+            <Text fontWeight={'semibold'}>{`Nodes of Hidden Layer: ${props.appState.network.arrLayers.slice(1, -1).reduce((acc, layer) => {
                 return parseInt(parseInt(acc) + parseInt(layer.numNodes));
             }, 0)} (Who responsible for Information Processing and Analyzing)`}</Text>
-            <Text>{`Nodes of Output Layer: ${props.appState.network.arrLayers[props.appState.network.arrLayers.length - 1].numNodes} (Who responsible for Final Investment Decision Making)`}</Text>
-            <Text>{`Total Nodes Positions: ${props.appState.network.arrLayers.reduce((acc, layer) => {
+                        <Box mb="1rem" />
+            <Text fontWeight={'semibold'}>{`Nodes of Output Layer: ${props.appState.network.arrLayers[props.appState.network.arrLayers.length - 1].numNodes} (Who responsible for Final Investment Decision Making)`}</Text>
+            <Box mb="1rem" />
+            <Text fontWeight={'semibold'}>{`Total Nodes Positions: ${props.appState.network.arrLayers.reduce((acc, layer) => {
                 return parseInt(parseInt(acc) + parseInt(layer.numNodes));
             }, 0)}`}</Text>
+            <Box mb="1rem" />
             <Button backgroundColor={'green.400'} onClick={callCreateDAO} disabled={isLoading}>
                 Create DAO
             </Button>

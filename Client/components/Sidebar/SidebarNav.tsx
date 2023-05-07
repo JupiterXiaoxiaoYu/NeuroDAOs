@@ -20,7 +20,7 @@ export function SidebarNav() {
       </NavSection>
 
       <NavSection title="Node">
-        <NavLink icon={GiSpawnNode} href="/panels">My Weight</NavLink>
+        <NavLink icon={GiSpawnNode} href="/myWeight">My Weight</NavLink>
         <NavLink icon={BiBarChartAlt} href="/node-rankings">Node Ranking</NavLink>
         <NavLink icon={GiReceiveMoney} href="/lending">Credit Lending</NavLink>
       </NavSection>

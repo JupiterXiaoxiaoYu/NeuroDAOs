@@ -14,6 +14,7 @@ contract NeuroDAOFactory {
         address TokenAddress;
         string name;
         string description_cid;
+        uint256 id;
     }
 
     uint256 public numberOfDAOs = 0;
@@ -59,16 +60,17 @@ contract NeuroDAOFactory {
         return _address;
     }
 
-    // function get_DAOs() public view returns (DAOData[] memory) {
-    //     DAOData[] memory allDAOs = new DAOData[](numberOfDAOs);
-    //     for (uint256 i = 0; i < numberOfDAOs; i++) {
-    //         NeuroDAO dao= NeuroDAO(payable(address(uint160(contracts[i]))));
-    //         allDAOs[i].name = dao.name();
-    //         allDAOs[i].description_cid = dao.description_cid();
-    //         allDAOs[i].TokenAddress = dao.DAOtokenAddress();
-    //     }
-    //     return allDAOs;
-    // }
+    function get_DAOs() public view returns (DAOData[] memory) {
+        DAOData[] memory allDAOs = new DAOData[](numberOfDAOs);
+        for (uint256 i = 0; i < numberOfDAOs; i++) {
+            NeuroDAO dao= NeuroDAO(payable(address(uint160(contracts[i]))));
+            allDAOs[i].name = dao.name();
+            allDAOs[i].description_cid = dao.description_cid();
+            allDAOs[i].TokenAddress = dao.DAOtokenAddress();
+            allDAOs[i].id = i;
+        }
+        return allDAOs;
+    }
 
     function joinDAOAsInput(address payable DAOAddress) public {
         NeuroDAO(DAOAddress).joinAsInput(msg.sender);

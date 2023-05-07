@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@thirdweb-dev/chains": "^0.1.13"
+	}
+}

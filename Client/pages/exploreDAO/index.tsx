@@ -10,7 +10,7 @@ import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 export default function UserList() {
 
-  const { contract } = useContract("0x201e479D966a08f2B0E9c886c9cb9E3e5c1d0A65");
+  const { contract } = useContract("0x01b64C824C34Acb75d62CAceeb186220685c2e24");
   const { data, isLoading } = useContractRead(contract, "get_DAOs")
 
   console.log(isLoading?'1':data[0])
@@ -18,7 +18,7 @@ export default function UserList() {
 
   return (
     <Box>
-      <Header />
+      <Header balance={0} address={'a'}/>
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <Sidebar />
         <Box flex="1" borderRadius={8} bg="gray.800" p="8">
@@ -47,7 +47,7 @@ export default function UserList() {
                 <Th>ID</Th>
                 <Th>Description</Th>
                 <Th>Token Address</Th>
-                <Th>Founder</Th>
+                {/* <Th>Founder</Th> */}
                 <Th width="8"></Th>
               </Tr>
             </Thead>
@@ -70,11 +70,13 @@ export default function UserList() {
                 <Td>
                     <Text fontWeight="bold">{dao.TokenAddress}</Text>
                 </Td>
-                <Td>
+                {/* <Td>
                     <Text fontWeight="bold">{dao.owner.substring(0, 6)}...{dao.owner.substring(dao.owner.length - 4)}</Text>
-                </Td>
+                </Td> */}
                 <Td>
+                <Link href={"/daoPage/[id]"} as={`/daoPage/${dao.id.toNumber()}`}>
                 <Button backgroundColor={'green.400'}>Join</Button>
+                </Link>
                 </Td>
               </Tr>))
               }
