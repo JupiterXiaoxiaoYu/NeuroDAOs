@@ -73,7 +73,7 @@ The entire process of optimizing neural network node weights can be divided into
 
 - React.js/Next.js/Chakra UI/Javascript/Typescript
 - Solidity/Remix/ether.js/Thirdweb
-- **Mantle Testnet**
+- **Mantle Testnet**: [Smart Contracts Deployment Link](https://explorer.testnet.mantle.xyz/address/0x3BC8C4BAE74D5A0fc4a8E4494b73f46c2103cd12/)
 
 ## Instructions about Running the Project
 
