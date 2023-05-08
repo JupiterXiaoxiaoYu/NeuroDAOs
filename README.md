@@ -67,7 +67,7 @@ The entire process of optimizing neural network node weights can be divided into
 - DAO tokens are used to increase nodes' decision-making power in DAO proposals and to earn reputation and interest rewards after the decision-making process. However, this may also bring greater risks.
 - When the reputation reaches a certain value, it can be used to borrow DAO tokens through reputation lending. DAO tokens can further increase the node's income or be sold to DAO members who cannot redeem their pledges due to decision-making losses.
 
-## [Deck]()
+## [Deck](https://gamma.app/public/NeuroDAOs-vbe3n7su7x2nwdm?mode=doc)
 
 ## Built With/On
 
@@ -77,6 +77,13 @@ The entire process of optimizing neural network node weights can be divided into
 
 ## Instructions about Running the Project
 
+- Go into the Client and Contract Folders and Run/Deploy as the Instructions
+- Replace the Contract Address Specified in the Client Files, It is easy to find them but you can also search for keywords such as "contract"
+- Test it your self!
+
 ## Thanks
 
+- I have put much effort into smart contracts and it is almost finished except for some small things and Defi integrations. I have tried my best to accomplish the Client and Web but it still requires a lot of time. I'd like to thank myself for this effort, whether or not I win a prize.
+- I have to thank those who hold and supported the hackathon, thanks to the opportunity.
+- Jupiter 2023.5.8 UTC+8
 
