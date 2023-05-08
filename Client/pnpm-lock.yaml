@@ -10,6 +10,7 @@ specifiers:
   '@thirdweb-dev/sdk': ^3.10.12
   apexcharts: ^3.39.0
   autoprefixer: ^10.4.14
+  chart.js: ^4.3.0
   eslint: 8.11.0
   eslint-config-next: ^13
   ethers: ^5
@@ -20,6 +21,7 @@ specifiers:
   react: ^18.2
   react-apexcharts: ^1.4.0
   react-bootstrap: ^2.7.4
+  react-chartjs-2: ^5.2.0
   react-datepicker: ^4.11.0
   react-dom: ^18.2
   react-hook-form: ^7.43.9
@@ -41,6 +43,7 @@ dependencies:
   '@thirdweb-dev/react': 3.11.9_zswdumq4v3dm6a3jevueegufwq
   '@thirdweb-dev/sdk': 3.10.12_gelajh7tsabbujtccl2c2d4lqy
   apexcharts: 3.39.0
+  chart.js: 4.3.0
   ethers: 5.7.2
   framer-motion: 10.12.4_biqbaboplfbrettd7655fr4n2y
   next: 13.3.1_biqbaboplfbrettd7655fr4n2y
@@ -48,6 +51,7 @@ dependencies:
   react: 18.2.0
   react-apexcharts: 1.4.0_vimzxmsr6jarszy4couak7ghra
   react-bootstrap: 2.7.4_biqbaboplfbrettd7655fr4n2y
+  react-chartjs-2: 5.2.0_jzw32sextkxj6pznyxerjojkqm
   react-datepicker: 4.11.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.9_react@18.2.0
@@ -1992,6 +1996,10 @@ packages:
     dependencies:
       '@json-rpc-tools/types': 1.7.6
       '@pedrouid/environment': 1.0.1
+    dev: false
+
+  /@kurkle/color/0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
     dev: false
 
   /@ledgerhq/devices/8.0.1:
@@ -4623,6 +4631,13 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+
+  /chart.js/4.3.0:
+    resolution: {integrity: sha512-ynG0E79xGfMaV2xAHdbhwiPLczxnNNnasrmPEXriXsPJGjmhOBYzFVEsB65w2qMDz+CaBJJuJD0inE/ab/h36g==}
+    engines: {pnpm: '>=7'}
+    dependencies:
+      '@kurkle/color': 0.3.2
+    dev: false
 
   /check-error/1.0.2:
     resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
@@ -7778,6 +7793,16 @@ packages:
       react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
       uncontrollable: 7.2.1_react@18.2.0
       warning: 4.0.3
+    dev: false
+
+  /react-chartjs-2/5.2.0_jzw32sextkxj6pznyxerjojkqm:
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      chart.js: 4.3.0
+      react: 18.2.0
     dev: false
 
   /react-clientside-effect/1.2.6_react@18.2.0:

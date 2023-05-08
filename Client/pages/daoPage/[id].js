@@ -8,13 +8,14 @@ import { Sidebar } from "../../components/Sidebar";
 import { useRouter } from 'next/router';
 import { Box, Divider, Flex, Alert, AlertIcon, AlertDescription, CloseButton, AlertTitle, useDisclosure } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
-import { abi } from "./NeuroDAO.json";
 import { Web3Button, useContract, useContractWrite, useContractRead } from "@thirdweb-dev/react";
+import {abi} from "./NeuroDAO.json";
+import {abi1} from "./DAOToken.json"
 
 const daoPage = ({ appState}) => {
     const router = useRouter();
-    const { contract } = useContract("0x01b64C824C34Acb75d62CAceeb186220685c2e24");
-    
+    const { contract } = useContract("0x3BC8C4BAE74D5A0fc4a8E4494b73f46c2103cd12");
+    const sdk = useSDK();
 
     const [state, setState] = useState({
         id: router.query.id,
@@ -35,6 +36,8 @@ const daoPage = ({ appState}) => {
         promptStatus: 'success',
         propmtDescription: 'Your DAO has been created!',
         contractAddress: '',
+        contract: undefined,
+        tokenBalance: 0,
         doSetDAOName: new_name => setState(prevState => ({ ...prevState, DAOName: new_name })),
         doSetTokenName: new_name => setState(prevState => ({ ...prevState, TokenName: new_name })),
         doSetTokenSymbol: new_symbol => setState(prevState => ({ ...prevState, TokenSymbol: new_symbol })),
@@ -49,6 +52,7 @@ const daoPage = ({ appState}) => {
         doSetWeightInit: (layer, new_weight) => doSetWeightInit(layer, new_weight),
         doSetNumNodes: (layer, new_nodes) => doSetNumNodes(layer, new_nodes),
         doSetLearnRate: (new_learn) => doSetLearnRate(new_learn),
+        updateTokenBalance: () => updateTokenBalance(),
         // doSetEpochs: (new_epochs) => doSetEpochs(new_epochs),
         // doSetBatchSize: (new_batch) => doSetBatchSize(new_batch),
         doSetLoss: (new_loss) => doSetLoss(new_loss),
@@ -62,16 +66,51 @@ const daoPage = ({ appState}) => {
 
     const { data: contractAddressdata, isLoading: isContractAddressDataLoading, error } = useContractRead(contract, "contracts", [state.id?.toString()])
 
+    // useEffect(() => {
+    //     if(!isContractAddressDataLoading){
+    //         setState({...state, contractAddress: contractAddressdata})
+    //         console.log(contractAddressdata)
+    //     }
+    // }, [isContractAddressDataLoading])
+
     useEffect(() => {
-        if(isContractAddressDataLoading){
-            setState({...state, contractAddress: contractAddressdata})
+        async function getContract(){
+        if(!isContractAddressDataLoading){
+            const DAOContract = await sdk.getContract(
+                contractAddressdata.toString(), // The address of your smart contract
+                abi, // The ABI of your smart contract
+            );
+            const DAOtokenAddress = await DAOContract.call("DAOtokenAddress")
+            const DAOtokenContract = await sdk.getContract(
+                DAOtokenAddress, // The address of your smart contract
+                abi1, // The ABI of your smart contract
+            );
+            const address = await sdk.wallet.getAddress();
+            const balance = await DAOtokenContract.call("balanceOf", [address])
+            setState({...state, contract: DAOContract, contractAddress: contractAddressdata.toString(), tokenBalance: balance.toNumber()})
         }
+    }
+    getContract()
     }, [isContractAddressDataLoading])
 
+    const getTokenBalance = async () => {
+        const DAOtokenAddress = await state.contract.call("DAOtokenAddress")
+        const DAOtokenContract = await sdk.getContract(
+            DAOtokenAddress, // The address of your smart contract
+            abi1, // The ABI of your smart contract
+        );
+        const balance = await DAOtokenContract.call("balanceOf")
+        return balance
+    }
+
+    const updateTokenBalance = async () => {
+        const balance = await getTokenBalance()
+        setState({...state, tokenBalance: balance.toNumber()})
+    }
 
     // const sdk = useSDK();
 
-    // const { contract } = useContract("0x01b64C824C34Acb75d62CAceeb186220685c2e24");
+    // const { contract } = useContract("0x3BC8C4BAE74D5A0fc4a8E4494b73f46c2103cd12");
     // const { mutateAsync: joinDAOAsInput, isLoading } = useContractWrite(contract, "joinDAOAsInput")
     // // const [alertState, setAlertState] = useState('success');
     // console.log(appState)
@@ -278,6 +317,11 @@ const daoPage = ({ appState}) => {
 }
 
 
+
 export default daoPage;
 
+
+daoPage.getInitialProps = ({ query }) => {
+    return { id: query.id };
+};
 

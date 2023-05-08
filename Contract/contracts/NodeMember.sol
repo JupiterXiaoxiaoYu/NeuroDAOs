@@ -27,11 +27,11 @@ contract NodeMember {
     error NotLpNode();
 
     modifier memberOnly(address node) {
-        if (!(
-            inputNodesWeight[node].initialWeight != 0 ||
-            hiddenNodesWeight[node].initialWeight != 0 ||
-            outputNodesWeight[node].initialWeight != 0 ||
-            lpNodesWeight[node].initialWeight != 0)
+        if (
+            !(inputNodesWeight[node].initialWeight != 0 ||
+                hiddenNodesWeight[node].initialWeight != 0 ||
+                outputNodesWeight[node].initialWeight != 0 ||
+                lpNodesWeight[node].initialWeight != 0)
         ) {
             revert NotMember();
         }
@@ -106,75 +106,39 @@ contract NodeMember {
     //     }
     // }
 
-    function joinAsInput() external virtual {
-        inputNodes.push(msg.sender);
-        inputNodesWeight[msg.sender].initialWeight = 1;
-        inputNodesWeight[msg.sender].investmentWeight = 0;
-    }
-
-    function joinAsHidden() external virtual {
-        hiddenNodes.push(msg.sender);
-        hiddenNodesWeight[msg.sender].initialWeight = 1;
-        hiddenNodesWeight[msg.sender].investmentWeight = 0;
-    }
-
-    function joinAsOutput() external virtual {
-        outputNodes.push(msg.sender);
-        outputNodesWeight[msg.sender].initialWeight = 1;
-        outputNodesWeight[msg.sender].investmentWeight = 0;
-    }
-
-    function joinAsLP() external virtual {
-        lpNodes.push(msg.sender);
-        lpNodesWeight[msg.sender].initialWeight = 1;
-        lpNodesWeight[msg.sender].investmentWeight = 0;
-    }
-
-    // function getInputNodes()
-    //     public
-    //     view
-    //     returns (address[] memory, Weight[] memory)
-    // {
-    //     Weight[] memory weights = new Weight[](inputNodes.length);
-    //     for (uint256 i = 0; i < inputNodes.length; i++) {
-    //         weights[i] = inputNodesWeight[inputNodes[i]];
-    //     }
-    //     return (inputNodes, weights);
+    // function joinAsInput() external virtual {
+    //     inputNodes.push(msg.sender);
+    //     inputNodesWeight[msg.sender].initialWeight = 1;
     // }
 
-    // function getHiddenNodes()
-    //     public
-    //     view
-    //     returns (address[] memory, Weight[] memory)
-    // {
-    //     Weight[] memory weights = new Weight[](hiddenNodes.length);
-    //     for (uint256 i = 0; i < hiddenNodes.length; i++) {
-    //         weights[i] = hiddenNodesWeight[hiddenNodes[i]];
-    //     }
-    //     return (hiddenNodes, weights);
+    // function joinAsHidden() external virtual {
+    //     hiddenNodes.push(msg.sender);
+    //     hiddenNodesWeight[msg.sender].initialWeight = 1;
     // }
 
-    // function getOutputNodes()
-    //     public
-    //     view
-    //     returns (address[] memory, Weight[] memory)
-    // {
-    //     Weight[] memory weights = new Weight[](outputNodes.length);
-    //     for (uint256 i = 0; i < outputNodes.length; i++) {
-    //         weights[i] = outputNodesWeight[outputNodes[i]];
-    //     }
-    //     return (outputNodes, weights);
+    // function joinAsOutput() external virtual {
+    //     outputNodes.push(msg.sender);
+    //     outputNodesWeight[msg.sender].initialWeight = 1;
     // }
 
-    // function getLPNodes()
-    //     public
-    //     view
-    //     returns (address[] memory, Weight[] memory)
-    // {
-    //     Weight[] memory weights = new Weight[](lpNodes.length);
-    //     for (uint256 i = 0; i < lpNodes.length; i++) {
-    //         weights[i] = lpNodesWeight[lpNodes[i]];
-    //     }
-    //     return (lpNodes, weights);
+    // function joinAsLP() external virtual {
+    //     lpNodes.push(msg.sender);
+    //     lpNodesWeight[msg.sender].initialWeight = 1;
     // }
+
+    function getInputNodes() public view returns (address[] memory) {
+        return inputNodes;
+    }
+
+    function getHiddenNodes() public view returns (address[] memory) {
+        return hiddenNodes;
+    }
+
+    function getOutputNodes() public view returns (address[] memory) {
+        return outputNodes;
+    }
+
+    function getLPNodes() public view returns (address[] memory) {
+        return lpNodes;
+    }
 }

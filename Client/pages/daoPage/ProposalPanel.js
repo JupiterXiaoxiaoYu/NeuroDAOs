@@ -82,9 +82,10 @@ const ProposalPanel = ({ appState }) => {
 
 
     const selectedLayer = state.network.arrLayers[state.selectedLayer];
+    // console.log(appState)
     return (
         <Box>
-            <ProposalTable contractAddressData ={appState.contractAddress}/>
+            <ProposalTable appState={appState}/>
         </Box>
     );
 

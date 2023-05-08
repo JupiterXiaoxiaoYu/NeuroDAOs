@@ -43,7 +43,7 @@ export function Header({address, balance}) {
       {isWideVersion && <SearchBox />}
       <Flex align="center" ml="auto" >
         <NotificationNav />
-        <Profile address={address} balance={balance}/>
+        {/* <Profile address={address} balance={balance}/> */}
         <ConnectWallet/>
       </Flex>
     </Flex>

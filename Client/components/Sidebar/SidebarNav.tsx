@@ -11,7 +11,7 @@ import {TbChartArrowsVertical} from "react-icons/tb";
 
 export function SidebarNav() {
   return (
-    <Stack spacing="12" align="flex-start">
+    <Stack spacing="12" align="flex-start" >
       <NavSection title="DAO">
         <NavLink icon={BiNetworkChart} href="/dashboard">My DAOs</NavLink>
         <NavLink icon={GiMicroscope} href="/exploreDAO">Explore DAO</NavLink>

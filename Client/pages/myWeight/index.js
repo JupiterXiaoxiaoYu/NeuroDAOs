@@ -32,8 +32,7 @@ class RadialChartComponent extends Component {
                 <Header balance={0} address={'a'} />
                 <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
                     <Sidebar />
-
-                    <div>
+                    <Flex w="100%" my="6" mx="auto" px="6" align="center">
                         <RadialChart
                             data={data}
                             width={300}
@@ -42,16 +41,18 @@ class RadialChartComponent extends Component {
                             radius={140}
                             labelsRadiusMultiplier={1.15}
                             showLabels
+                            labelsStyle={{ fill: "white", fontSize: "16px" }}
                         />
-                        <div>Overall Reputation: {totalScore}</div>
-                        <div>
+                        <Box ml="4" p="4" bg="white" borderRadius="lg" boxShadow="md">
+                            <Text fontSize="2xl" mb="4" color={'black'}>Overall Reputation: {totalScore}</Text>
                             {percentageData.map(({ label, percentage }) => (
-                                <div key={label}>
-                                    {label}: {percentage}%
-                                </div>
+                                <Flex key={label} justify="space-between">
+                                    <Text color={'black'}>{label}</Text>
+                                    <Text color={'black'}>{percentage}%</Text>
+                                </Flex>
                             ))}
-                        </div>
-                    </div>
+                        </Box>
+                    </Flex>
                 </Flex>
             </Box>
 

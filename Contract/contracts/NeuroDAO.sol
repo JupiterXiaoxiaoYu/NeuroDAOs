@@ -117,9 +117,9 @@ contract NeuroDAO is ProposalVote, InvestmentAgent {
         memberOnly(msg.sender)
         SufficientFundOnly(_amount)
     {
-        payable(address(this)).transfer(_amount.mul(10**18));
+        payable(address(this)).transfer(_amount);
         stakers[msg.sender] += _amount;
-        DAOToken(DAOtokenAddress).mintTo(msg.sender, _amount.mul(100000));
+        DAOToken(DAOtokenAddress).mintTo(msg.sender, _amount.div(10**12));
     }
 
     using SafeMath for uint256;

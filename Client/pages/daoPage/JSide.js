@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ProposalPanel from "./ProposalPanel.js"
 import GetTokenPanel from "./GetTokenPanel.js"
 import RolesMembersPanel from "./RolesMembersPanel.js";
-import { Box, Tab, Tabs, TabList, TabPanels, TabPanel } from "@chakra-ui/react";
+import { Box, Tab, Tabs, TabList, TabPanels, TabPanel, Text } from "@chakra-ui/react";
 
 class JSide extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class JSide extends Component {
         <Box height={'80vh'} overflowY={'auto'}>
           <Tabs>
             <TabList>
-            <Tab id="Proposals" title="Proposals">
+              <Tab id="Proposals" title="Proposals">
                 Roles and Members
               </Tab>
               <Tab id="Proposals" title="Proposals">
@@ -26,6 +26,12 @@ class JSide extends Component {
                 Get DAO Tokens
               </Tab>
             </TabList>
+            <Box borderWidth="1px" borderRadius="md" p="3" >
+              <Text fontWeight="bold" mb="2">
+                DAO Token Balance:
+              </Text>
+              <Text fontSize="2xl">{this.props.appState.tokenBalance}</Text>
+            </Box>
             <TabPanels>
               <TabPanel>
                 <Box>
@@ -39,7 +45,7 @@ class JSide extends Component {
               </TabPanel>
               <TabPanel>
                 <Box>
-                  <GetTokenPanel appState={this.props.appState}/>
+                  <GetTokenPanel appState={this.props.appState} />
                 </Box>
               </TabPanel>
             </TabPanels>

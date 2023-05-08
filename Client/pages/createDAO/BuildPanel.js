@@ -132,19 +132,18 @@ class BuildPanel extends Component {
                     />
                 </InputGroup>
 
-                <Text>Now you can create your DAO</Text>
-                <Button variant="success" onClick={() => {
+                <Text>Modify Architecture and Paramters of the DAO:</Text>
+                <Button backgroundColor={'green.400'} onClick={() => {
                     console.log("adding layer");
                     this.props.appState.doAddLayer();
                 }}>{this.props.appState.network.arrLayers.length === 5 ? `Cannot Add More` : `Add Layer ${this.props.appState.network.arrLayers.length + 1}`}</Button>{' '}
 
-                <Button style={{ marginLeft: '20px' }} variant="danger" onClick={() => {
+                <Button style={{ marginLeft: '20px' }} backgroundColor={'green.400'} onClick={() => {
                     console.log("removing layer", this.props.appState.selectedLayer);
                     this.props.appState.doRemoveLayer(this.props.appState.selectedLayer);
                 }}>{this.props.appState.network.arrLayers.length === 3 ? `At least 3 layers` : `Remove Layer ${this.props.appState.selectedLayer + 1}`}</Button>{' '}
                 <Box mb="1rem" />
                 {/* {alert("selected layer is " + this.props.appState.selectedLayer)} */}
-                <Box mb="1rem" />
                 <Form>
                     <Form.Group controlId="formBasicRange">
                         <Form.Label>Node Count: {selectedLayer.numNodes}</Form.Label>
@@ -155,7 +154,7 @@ class BuildPanel extends Component {
                             value={selectedLayer.numNodes} />
                     </Form.Group>
                 </Form>
-
+                <Box mb="1rem" />
                 <Menu>
                     <MenuButton
                         px={4}
@@ -284,7 +283,7 @@ class BuildPanel extends Component {
                 <Form>
                     <Form.Check
                         type={'checkbox'}
-                        label={`Responsibility Overlap`}
+                        label={`Responsibility Overlap (Whether users could take on multiple roles)`}
                         onChange={this.handleClick}
                         checked={this.props.appState.responsivilityOverlap}
                     />

@@ -11,7 +11,7 @@ const ConfirmPanel = (props) => {
     //     props.appState.doSetBatchSize(event.target.value)
     // }
     // console.log('=====', props.appState)
-    const { contract } = useContract("0x01b64C824C34Acb75d62CAceeb186220685c2e24");
+    const { contract } = useContract("0x3BC8C4BAE74D5A0fc4a8E4494b73f46c2103cd12");
     const { mutateAsync: createNeuroDAOContract, isLoading } = useContractWrite(contract, "createNeuroDAOContract")
     // const [alertState, setAlertState] = useState('success');
 
@@ -49,7 +49,7 @@ const ConfirmPanel = (props) => {
                         <Box mb="1rem" />
             <Text fontWeight={'semibold'}>{`Nodes of Output Layer: ${props.appState.network.arrLayers[props.appState.network.arrLayers.length - 1].numNodes} (Who responsible for Final Investment Decision Making)`}</Text>
             <Box mb="1rem" />
-            <Text fontWeight={'semibold'}>{`Total Nodes Positions: ${props.appState.network.arrLayers.reduce((acc, layer) => {
+            <Text fontWeight={'semibold'}>{`Total Decisional Nodes Positions: ${props.appState.network.arrLayers.reduce((acc, layer) => {
                 return parseInt(parseInt(acc) + parseInt(layer.numNodes));
             }, 0)}`}</Text>
             <Box mb="1rem" />

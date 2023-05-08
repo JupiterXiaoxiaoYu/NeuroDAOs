@@ -10,7 +10,7 @@ import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 export default function UserList() {
 
-  const { contract } = useContract("0x01b64C824C34Acb75d62CAceeb186220685c2e24");
+  const { contract } = useContract("0x3BC8C4BAE74D5A0fc4a8E4494b73f46c2103cd12");
   const { data, isLoading } = useContractRead(contract, "get_DAOs")
 
   console.log(isLoading?'1':data[0])
