@@ -20,7 +20,7 @@ To obtain DAO tokens, users must pledge Network Tokens (such as ETH/BIT) at a fi
 
 After proposals are approved and reach the executable stage of investment or exit, any DAO member can execute the proposal investment or exit, and the final profit and loss will be allocated to the various Nodes according to the algorithm. For example, Input Nodes, Hidden Nodes, and Output Nodes will lose a certain amount of DAO tokens due to their opposite investment attitudes towards the profit and loss.
 
-Nodes' decision-making weight and overall reputation in the DAO will be adjusted based on their opinions and token pledges in the proposal. Once the overall reputation reaches a certain level, DAO tokens can be lent on the NeuroDAOs credit market, which can be used to increase the Nodes' return on investment in DAO investment decisions or sold to Ethereum nodes who are unable to withdraw their pledged Ether due to a lack of DAO tokens.
+Nodes' decision-making weight and overall reputation in the DAO will be adjusted based on their opinions and token pledges in the proposal. Once the overall reputation reaches a certain level, DAO tokens can be lent on the NeuroDAOs credit market, which can be used to increase the Nodes' return on investment in DAO investment decisions or sold to node members who are unable to withdraw their pledged Ether/BIT due to a lack of DAO tokens.
 
 ## The Design
 
